@@ -445,7 +445,7 @@ G2L["38"]["SoundId"] = [[rbxassetid://548341968]];
 G2L["39"] = Instance.new("Sound", G2L["36"]);
 G2L["39"]["RollOffMode"] = Enum.RollOffMode.InverseTapered;
 G2L["39"]["Name"] = [[introSound]];
-G2L["39"]["SoundId"] = [[rbxassetid://8551372796]];
+G2L["39"]["SoundId"] = [[rbxassetid://7695856187]];
 
 
 -- Require G2L wrapper
@@ -1052,6 +1052,7 @@ task.spawn(C_34);
 local function C_35()
 local script = G2L["35"];
 	local sfx = script.Parent.Parent.Sfx
+	wait(0.2)
 	sfx.introSound:Play()
 end;
 task.spawn(C_35);
