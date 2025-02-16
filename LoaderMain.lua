@@ -7,7 +7,7 @@
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
 ]=]
 
--- Instances: 49 | Scripts: 20 | Modules: 2 | Tags: 0
+-- Instances: 50 | Scripts: 21 | Modules: 2 | Tags: 0
 local G2L = {};
 
 -- StarterGui.Loader
@@ -302,7 +302,7 @@ G2L["22"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["22"]["BackgroundTransparency"] = 1;
 G2L["22"]["Size"] = UDim2.new(1, 0, 1, 0);
 G2L["22"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["22"]["Text"] = [[No fuck you!!!🥶👌🤬]];
+G2L["22"]["Text"] = [[No!]];
 
 
 -- StarterGui.Loader.Canvas.Main.Close.UIStroke
@@ -396,9 +396,14 @@ G2L["30"] = Instance.new("LocalScript", G2L["20"]);
 G2L["30"]["Name"] = [[CloseButtonTween]];
 
 
+-- StarterGui.Loader.Canvas.Main.UIDrag
+G2L["31"] = Instance.new("LocalScript", G2L["3"]);
+G2L["31"]["Name"] = [[UIDrag]];
+
+
 -- StarterGui.Loader.Canvas.LoadAnim
-G2L["31"] = Instance.new("LocalScript", G2L["2"]);
-G2L["31"]["Name"] = [[LoadAnim]];
+G2L["32"] = Instance.new("LocalScript", G2L["2"]);
+G2L["32"]["Name"] = [[LoadAnim]];
 
 
 -- Require G2L wrapper
@@ -926,9 +931,51 @@ local script = G2L["30"];
 	
 end;
 task.spawn(C_30);
--- StarterGui.Loader.Canvas.LoadAnim
+-- StarterGui.Loader.Canvas.Main.UIDrag
 local function C_31()
 local script = G2L["31"];
+	-- Made by Real_IceyDev (@lceyDex) --
+	-- Simple UI dragger (PC Only/Any device that has a mouse) --
+	
+	local UIS = game:GetService('UserInputService')
+	local frame = script.Parent
+	local dragToggle = nil
+	local dragSpeed = 0.25
+	local dragStart = nil
+	local startPos = nil
+	
+	local function updateInput(input)
+		local delta = input.Position - dragStart
+		local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+			startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
+	end
+	
+	frame.InputBegan:Connect(function(input)
+		if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
+			dragToggle = true
+			dragStart = input.Position
+			startPos = frame.Position
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragToggle = false
+				end
+			end)
+		end
+	end)
+	
+	UIS.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			if dragToggle then
+				updateInput(input)
+			end
+		end
+	end)
+end;
+task.spawn(C_31);
+-- StarterGui.Loader.Canvas.LoadAnim
+local function C_32()
+local script = G2L["32"];
 	local object = script.Parent
 	object.AnchorPoint = Vector2.new(0.5, 0.5)
 	object.Position = UDim2.new(0.5, 0, 2, 0)
@@ -940,6 +987,6 @@ local script = G2L["31"];
 	task.wait(3)
 	object:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Quint)
 end;
-task.spawn(C_31);
+task.spawn(C_32);
 
 return G2L["1"], require;
