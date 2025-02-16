@@ -938,7 +938,7 @@ local script = G2L["31"];
 	wait(1)
 	object:TweenPosition(UDim2.new(0.5, 0, 0.5, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quint)
 	task.wait(3)
-	object:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Quad)
+	object:TweenSize(UDim2.new(1, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Quint)
 end;
 task.spawn(C_31);
 
