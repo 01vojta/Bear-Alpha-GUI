@@ -302,7 +302,7 @@ G2L["22"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["22"]["BackgroundTransparency"] = 1;
 G2L["22"]["Size"] = UDim2.new(1, 0, 1, 0);
 G2L["22"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["22"]["Text"] = [[No!]];
+G2L["22"]["Text"] = [[No fuck you!!!🥶👌🤬]];
 
 
 -- StarterGui.Loader.Canvas.Main.Close.UIStroke
