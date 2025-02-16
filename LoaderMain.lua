@@ -445,7 +445,7 @@ G2L["38"]["SoundId"] = [[rbxassetid://548341968]];
 G2L["39"] = Instance.new("Sound", G2L["36"]);
 G2L["39"]["RollOffMode"] = Enum.RollOffMode.InverseTapered;
 G2L["39"]["Name"] = [[introSound]];
-G2L["39"]["SoundId"] = [[rbxassetid://7695856187]];
+G2L["39"]["SoundId"] = [[rbxassetid://6114974207]];
 
 
 -- Require G2L wrapper
