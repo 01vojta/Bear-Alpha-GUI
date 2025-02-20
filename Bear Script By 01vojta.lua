@@ -1,3 +1,41 @@
+-- WriteFile Thingys
+
+local mainFolder = "BearGui"
+local subFolder = "BearGui/Music"
+
+-- Check if the main folder exists, create if not
+if not isfolder(mainFolder) then
+    makefolder(mainFolder)
+    print("Created main folder: " .. mainFolder)
+end
+
+-- Check if the subfolder exists, create if not
+if not isfolder(subFolder) then
+    makefolder(subFolder)
+    print("Created subfolder: " .. subFolder)
+else
+    print("Subfolder already exists!")
+end
+-- idk logs i guess?
+local filePath = "BearGui/logs.txt"
+local fileContent = "Heya you found the logs! Wow... Theres NOTHING HERE!!!"
+
+writefile(filePath, fileContent) -- Creates or overwrites the file
+print("File written at: " .. filePath)
+--- rah Music
+local musicFolderPath = "BearGui/Music/"
+
+-- Find the existing Sound instance named "Music"
+    local sound = game.Workspace:FindFirstChild("Music")
+
+-- Check if the sound instance exists
+    if not sound then
+     warn("No sound instance named 'Music' found in Workspace!")
+     return
+    end
+
+
+
 Lighting = game:GetService("Lighting")
 -- 100000
 
@@ -639,7 +677,7 @@ end
 
  --Fun Tab End
  local Tab = Window:CreateTab("Music", "music")
- local Section = Tab:CreateSection("Music Misc")
+ local Section = Tab:CreateSection("Music Main")
 
  local Button = Tab:CreateButton({
     Name = "Remove Reverb.",
@@ -1470,7 +1508,7 @@ local Label = Tab:CreateLabel("I think some messages could get u banned. Im not 
  })
 
  local Button = Tab:CreateButton({
-    Name = "This is like a tal",
+    Name = "This is like Ohio.",
     Callback = function(Chat)
 	local TextChatService = game:GetService("TextChatService")
     TextChatService.TextChannels.RBXGeneral:SendAsync("Skibidi Sigma")
@@ -1478,3 +1516,81 @@ local Label = Tab:CreateLabel("I think some messages could get u banned. Im not 
  })
 
 Rayfield:LoadConfiguration()
+
+local Tab = Window:CreateTab("Custom Songs", "music")
+
+local Section = Tab:CreateSection("CUSTOM MUSIC HOLY MOLY!!!!")
+local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace folder and open a folder named 'BearGui' and then a folder named 'Music' and you put your music files here.", "activity")
+   local Label = Tab:CreateLabel("And do not forget to put the full music file name with exetnsion! Example: music.mp3", "file")
+
+    local Button = Tab:CreateButton({
+        Name = "Remove Reverb.",
+        Callback = function()
+            local SoundService = game:GetService("SoundService")
+            SoundService.AmbientReverb = Enum.ReverbType.NoReverb
+        end,
+     })
+    
+     local Button = Tab:CreateButton({
+        Name = "Add Back Reverb.",
+        Callback = function()
+            local SoundService = game:GetService("SoundService")
+            SoundService.AmbientReverb = Enum.ReverbType.Hangar
+        end,
+     })
+    
+     local Button = Tab:CreateButton({
+        Name = "Mute Music [Temporary. Every Round Resets]",
+        Callback = function()
+            local M = workspace.Music
+            M.SoundId = "rbxassetid://"
+            M.PlaybackSpeed = 1
+            M.TimePosition = 0
+            M.Playing = true
+            M.Looped = true
+            
+            
+            Rayfield:Notify({
+                Title = "Bear [Alpha] GUI",
+                Content = "Music Muted✔",
+                Duration = 6.5,
+                Image = "volume-off",
+             })
+        end,
+     })
+    
+    
+     local Slider = Tab:CreateSlider({
+        Name = "Volume",
+        Range = {0, 2},
+        Increment = 0.1,
+        Suffix = "Volume",
+        CurrentValue = 1,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music
+            M.Volume = v
+    
+        end,
+     })
+
+    local Input = Tab:CreateInput({
+           Name = "Enter Song File Name",
+           PlaceholderText = "song.mp3",
+           RemoveTextAfterFocus = false,
+           Callback = function(text)
+               local fileName = text -- Get the filename from the TextBox
+               local filePath = musicFolderPath .. fileName
+       
+               -- Check if the file exists before playing
+               if isfile(filePath) then
+                   sound.SoundId = getcustomasset(filePath) -- Set the SoundId to the custom asset
+                   sound.PlaybackSpeed = 1
+                   sound.Volume = 1
+                   sound:Play() -- Play the sound
+                   print("Playing: " .. filePath)
+               else
+                   warn("File not found: " .. filePath)
+               end
+           end
+       })
