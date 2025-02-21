@@ -1,40 +1,11 @@
--- WriteFile Thingys
-
-local mainFolder = "BearGui"
-local subFolder = "BearGui/Music"
-
--- Check if the main folder exists, create if not
-if not isfolder(mainFolder) then
-    makefolder(mainFolder)
-    print("Created main folder: " .. mainFolder)
-end
-
--- Check if the subfolder exists, create if not
-if not isfolder(subFolder) then
-    makefolder(subFolder)
-    print("Created subfolder: " .. subFolder)
-else
-    print("Subfolder already exists!")
-end
--- idk logs i guess?
-local filePath = "BearGui/logs.txt"
-local fileContent = "Heya you found the logs! Wow... Theres NOTHING HERE!!!"
-
-writefile(filePath, fileContent) -- Creates or overwrites the file
-print("File written at: " .. filePath)
---- rah Music
-local musicFolderPath = "BearGui/Music/"
-
--- Find the existing Sound instance named "Music"
-    local sound = game.Workspace:FindFirstChild("Music")
+-- For Music
+local sound = game.Workspace:FindFirstChild("Music")
 
 -- Check if the sound instance exists
     if not sound then
      warn("No sound instance named 'Music' found in Workspace!")
      return
     end
-
-
 
 Lighting = game:GetService("Lighting")
 -- 100000
@@ -1508,7 +1479,7 @@ local Label = Tab:CreateLabel("I think some messages could get u banned. Im not 
  })
 
  local Button = Tab:CreateButton({
-    Name = "This is like Ohio.",
+    Name = "This is like a tal",
     Callback = function(Chat)
 	local TextChatService = game:GetService("TextChatService")
     TextChatService.TextChannels.RBXGeneral:SendAsync("Skibidi Sigma")
@@ -1520,7 +1491,7 @@ Rayfield:LoadConfiguration()
 local Tab = Window:CreateTab("Custom Songs", "music")
 
 local Section = Tab:CreateSection("CUSTOM MUSIC HOLY MOLY!!!!")
-local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace folder and open a folder named 'BearGui' and then a folder named 'Music' and you put your music files here.", "activity")
+local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace folder and create a folder named 'Music' (Exactly like that or it wont work) and you put your music files here.", "activity")
    local Label = Tab:CreateLabel("And do not forget to put the full music file name with exetnsion! Example: music.mp3", "file")
 
     local Button = Tab:CreateButton({
@@ -1576,21 +1547,30 @@ local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace fold
 
     local Input = Tab:CreateInput({
            Name = "Enter Song File Name",
-           PlaceholderText = "song.mp3",
+           PlaceholderText = "song.mp3/wav/ogg",
            RemoveTextAfterFocus = false,
            Callback = function(text)
-               local fileName = text -- Get the filename from the TextBox
-               local filePath = musicFolderPath .. fileName
-       
-               -- Check if the file exists before playing
-               if isfile(filePath) then
-                   sound.SoundId = getcustomasset(filePath) -- Set the SoundId to the custom asset
-                   sound.PlaybackSpeed = 1
-                   sound.Volume = 1
-                   sound:Play() -- Play the sound
-                   print("Playing: " .. filePath)
-               else
-                   warn("File not found: " .. filePath)
-               end
+            local musicFolderPath = "Music"
+
+            -- Check if the "Music" folder exists
+            if not isfolder(musicFolderPath) then
+                warn("Folder not found: " .. musicFolderPath)
+                return
+            end
+            
+            local fileName = text -- Get the filename from the TextBox
+            local filePath = musicFolderPath .. "/" .. fileName
+            
+            -- Check if the file exists before playing
+            if isfile(filePath) then
+                sound.SoundId = getcustomasset(filePath) -- Set the SoundId to the custom asset
+                sound.PlaybackSpeed = 1
+                sound.Volume = 1
+                sound:Play() -- Play the sound
+                print("Playing: " .. filePath)
+            else
+                warn("File not found: " .. filePath)
+            end
+            
            end
        })
