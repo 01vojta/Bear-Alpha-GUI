@@ -348,6 +348,62 @@ end
     end,
  })
 
+ local Divider = Tab:CreateDivider()
+ local Section = Tab:CreateSection("Misc")
+ local Button = Tab:CreateButton({
+    Name = "Disable Cutscene Guis",
+    Callback = function()
+        local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:FindFirstChild("PlayerGui")
+
+if not PlayerGui then return end
+
+local function MuteSoundsInGui(gui)
+    for _, sound in ipairs(gui:GetDescendants()) do
+        if sound:IsA("Sound") then
+            sound.Volume = 0
+        end
+    end
+end
+
+local function CheckForCutscene()
+    local cutscene = PlayerGui:FindFirstChild("Cutscene")
+    local cutsceneDeluxe = PlayerGui:FindFirstChild("CutsceneDeluxe")
+    
+    if cutscene then
+        MuteSoundsInGui(cutscene)
+        cutscene.Enabled = false  -- Disable the Cutscene GUI
+    end
+    
+    if cutsceneDeluxe then
+        MuteSoundsInGui(cutsceneDeluxe)
+        cutsceneDeluxe.Enabled = false  -- Disable the CutsceneDeluxe GUI
+    end
+end
+
+-- Initial check
+CheckForCutscene()
+
+-- Listen for new GUI elements being added
+PlayerGui.ChildAdded:Connect(function(child)
+    if child.Name == "Cutscene" or child.Name == "CutsceneDeluxe" then
+        MuteSoundsInGui(child)
+        child.Enabled = false  -- Disable the GUI when added
+    end
+end)
+
+-- Periodically check every 2 seconds
+task.spawn(function()
+    while true do
+        CheckForCutscene()
+        task.wait(2)
+    end
+end)
+
+    end,
+ })
+
  local Tab = Window:CreateTab("Puzzles", "puzzle")
 
  local Section = Tab:CreateSection("This highlights all the puzzles [You need to click it again every new round]")
@@ -1575,3 +1631,70 @@ local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace fold
             
            end
        })
+
+       local Section = Tab:CreateSection("Visualizers") 
+
+       local Button = Tab:CreateButton({
+        Name = "FOV Visualizer",
+        Callback = function()
+
+
+    local Players = game:GetService("Players")
+    local TweenService = game:GetService("TweenService")
+    local RunService = game:GetService("RunService")
+
+    local player = Players.LocalPlayer
+    local camera = workspace.CurrentCamera
+
+-- Reference your sound instance in the workspace.
+    local sound = workspace:WaitForChild("Music")
+
+-- Configuration variables
+local BASE_FOV = 100           -- Default Field of View.
+local MAX_EXTRA_FOV = 120      -- Maximum additional FOV.
+local TWEEN_TIME = 0.1        -- Tween duration.
+local SCALING_FACTOR = 20      -- Factor to scale bass value (adjust as needed).
+
+-- Function to get a value representing bass
+    local function getBassValue()
+    local spectrumData
+    local success = pcall(function()
+        spectrumData = sound:GetSpectrumData()
+    end)
+    
+    if not success or not spectrumData or #spectrumData == 0 then
+        -- Fallback to overall loudness if spectrum data is unavailable.
+        return sound.PlaybackLoudness
+    end
+
+    -- Use the first 20% of bins (bass frequencies)
+    local bassCount = math.max(1, math.floor(#spectrumData * 0.2))
+    local bassSum = 0
+    for i = 1, bassCount do
+        bassSum = bassSum + spectrumData[i]
+    end
+    local averageBass = bassSum / bassCount
+    return averageBass
+end
+
+-- Function to update the camera's FOV based on bass data.
+local function updateCameraFOV()
+    local bassValue = getBassValue()
+    -- Calculate additional FOV based on the bass value.
+    local additionalFOV = math.clamp(bassValue / SCALING_FACTOR, 0, MAX_EXTRA_FOV)
+    local targetFOV = BASE_FOV + additionalFOV
+
+    local tween = TweenService:Create(
+        camera, 
+        TweenInfo.new(TWEEN_TIME, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), 
+        {FieldOfView = targetFOV}
+    )
+    tween:Play()
+end
+
+-- Update every frame.
+RunService.RenderStepped:Connect(function()
+    updateCameraFOV()
+end)
+        end,
+     })
