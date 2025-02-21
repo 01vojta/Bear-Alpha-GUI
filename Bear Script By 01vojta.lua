@@ -1566,6 +1566,7 @@ local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace fold
                 sound.SoundId = getcustomasset(filePath) -- Set the SoundId to the custom asset
                 sound.PlaybackSpeed = 1
                 sound.Volume = 1
+                sound.TimePosition = 0
                 sound:Play() -- Play the sound
                 print("Playing: " .. filePath)
             else
