@@ -1,6 +1,62 @@
 -- For Music
 local sound = game.Workspace:FindFirstChild("Music")
 
+if sound then
+    -- Function to check if a sound effect already exists
+    local function findEffect(className)
+        for _, effect in ipairs(sound:GetChildren()) do
+            if effect:IsA(className) then
+                return effect
+            end
+        end
+        return nil
+    end
+
+    -- Add DistortionSoundEffect if not present
+    local distort = findEffect("DistortionSoundEffect")
+    if not distort then
+        distort = Instance.new("DistortionSoundEffect")
+        distort.Parent = sound
+        distort.Enabled = false
+        distort.Level = 0
+    end
+
+    -- Add EqualizerSoundEffect if not present
+    local eq = findEffect("EqualizerSoundEffect")
+    if not eq then
+        eq = Instance.new("EqualizerSoundEffect")
+        eq.Parent = sound
+        eq.Enabled = false
+        eq.HighGain = 0
+        eq.LowGain = 0
+        eq.MidGain = 0
+    end
+
+    -- Add PitchShiftSoundEffect if not present
+    local pitchShift = findEffect("PitchShiftSoundEffect")
+    if not pitchShift then
+        pitchShift = Instance.new("PitchShiftSoundEffect")
+        pitchShift.Parent = sound
+        pitchShift.Enabled = false
+        pitchShift.Octave = 1
+        pitchShift.Priority = 0
+    end
+
+    -- Add ReverbSoundEffect if not present
+    local reverbEffect = findEffect("ReverbSoundEffect")
+    if not reverbEffect then
+        reverbEffect = Instance.new("ReverbSoundEffect")
+        reverbEffect.Parent = sound
+        reverbEffect.Enabled = false
+        reverbEffect.DecayTime = 0.1
+        reverbEffect.Density = 0
+        reverbEffect.DryLevel = 0
+        reverbEffect.WetLevel = 0
+    end
+end
+
+
+
 -- Check if the sound instance exists
     if not sound then
      warn("No sound instance named 'Music' found in Workspace!")
@@ -1535,14 +1591,12 @@ local Label = Tab:CreateLabel("I think some messages could get u banned. Im not 
  })
 
  local Button = Tab:CreateButton({
-    Name = "This is like a tal",
+    Name = "This is like Ohio",
     Callback = function(Chat)
 	local TextChatService = game:GetService("TextChatService")
     TextChatService.TextChannels.RBXGeneral:SendAsync("Skibidi Sigma")
     end,
  })
-
-Rayfield:LoadConfiguration()
 
 local Tab = Window:CreateTab("Custom Songs", "music")
 
@@ -1632,6 +1686,23 @@ local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace fold
            end
        })
 
+       local Section = Tab:CreateSection("Music Settings") 
+
+       local Slider = Tab:CreateSlider({
+        Name = "Volume",
+        Range = {0, 2},
+        Increment = 0.1,
+        Suffix = "Volume",
+        CurrentValue = 1,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music
+            M.Volume = v
+    
+        end,
+     })
+      
+
        local Section = Tab:CreateSection("Visualizers") 
 
        local Button = Tab:CreateButton({
@@ -1650,10 +1721,10 @@ local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace fold
     local sound = workspace:WaitForChild("Music")
 
 -- Configuration variables
-local BASE_FOV = 100           -- Default Field of View.
+local BASE_FOV = 90           -- Default Field of View.
 local MAX_EXTRA_FOV = 120      -- Maximum additional FOV.
 local TWEEN_TIME = 0.1        -- Tween duration.
-local SCALING_FACTOR = 20      -- Factor to scale bass value (adjust as needed).
+local SCALING_FACTOR = 35      -- Factor to scale bass value (adjust as needed).
 
 -- Function to get a value representing bass
     local function getBassValue()
@@ -1697,4 +1768,4 @@ RunService.RenderStepped:Connect(function()
     updateCameraFOV()
 end)
         end,
-     })
+})
