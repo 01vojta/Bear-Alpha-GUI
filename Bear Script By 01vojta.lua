@@ -17,7 +17,7 @@ if sound then
     if not distort then
         distort = Instance.new("DistortionSoundEffect")
         distort.Parent = sound
-        distort.Enabled = false
+        distort.Enabled = true
         distort.Level = 0
     end
 
@@ -26,7 +26,7 @@ if sound then
     if not eq then
         eq = Instance.new("EqualizerSoundEffect")
         eq.Parent = sound
-        eq.Enabled = false
+        eq.Enabled = true
         eq.HighGain = 0
         eq.LowGain = 0
         eq.MidGain = 0
@@ -37,7 +37,7 @@ if sound then
     if not pitchShift then
         pitchShift = Instance.new("PitchShiftSoundEffect")
         pitchShift.Parent = sound
-        pitchShift.Enabled = false
+        pitchShift.Enabled = true
         pitchShift.Octave = 1
         pitchShift.Priority = 0
     end
@@ -691,7 +691,7 @@ end
 
  local Input = Tab:CreateInput({
     Name = "Custom Bear Image",
-    CurrentValue = "",
+    CurrentValue = "9180622670",
     PlaceholderText = "Put valid ImageId Here",
     RemoveTextAfterFocusLost = true,
     Flag = "Input1",
@@ -1326,6 +1326,354 @@ end
  local Divider = Tab:CreateDivider()
  local Section = Tab:CreateSection("Bypassed Audios [Coming Soon cuz 99.9% of them are deleted 😭]")
 
+ local Tab = Window:CreateTab("Custom Songs", "music")
+
+local Section = Tab:CreateSection("CUSTOM MUSIC HOLY MOLY!!!!")
+local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace folder and create a folder named 'Music' (Exactly like that or it wont work) and you put your music files here.", "activity")
+   local Label = Tab:CreateLabel("And do not forget to put the full music file name with exetnsion! Example: music.mp3", "file")
+
+    local Button = Tab:CreateButton({
+        Name = "Remove Reverb.",
+        Callback = function()
+            local SoundService = game:GetService("SoundService")
+            SoundService.AmbientReverb = Enum.ReverbType.NoReverb
+        end,
+     })
+    
+     local Button = Tab:CreateButton({
+        Name = "Add Back Reverb.",
+        Callback = function()
+            local SoundService = game:GetService("SoundService")
+            SoundService.AmbientReverb = Enum.ReverbType.Hangar
+        end,
+     })
+    
+     local Button = Tab:CreateButton({
+        Name = "Mute Music [Temporary. Every Round Resets]",
+        Callback = function()
+            local M = workspace.Music
+            M.SoundId = "rbxassetid://"
+            M.PlaybackSpeed = 1
+            M.TimePosition = 0
+            M.Playing = true
+            M.Looped = true
+            
+            
+            Rayfield:Notify({
+                Title = "Bear [Alpha] GUI",
+                Content = "Music Muted✔",
+                Duration = 6.5,
+                Image = "volume-off",
+             })
+        end,
+     })
+    
+    
+     local Slider = Tab:CreateSlider({
+        Name = "Volume",
+        Range = {0, 2},
+        Increment = 0.1,
+        Suffix = "Volume",
+        CurrentValue = 1,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music
+            M.Volume = v
+    
+        end,
+     })
+
+    local Input = Tab:CreateInput({
+           Name = "Enter Song File Name",
+           PlaceholderText = "song.mp3/wav/ogg",
+           RemoveTextAfterFocus = false,
+           Callback = function(text)
+            local musicFolderPath = "Music"
+
+            -- Check if the "Music" folder exists
+            if not isfolder(musicFolderPath) then
+                warn("Folder not found: " .. musicFolderPath)
+                return
+            end
+            
+            local fileName = text -- Get the filename from the TextBox
+            local filePath = musicFolderPath .. "/" .. fileName
+            
+            -- Check if the file exists before playing
+            if isfile(filePath) then
+                sound.SoundId = getcustomasset(filePath) -- Set the SoundId to the custom asset
+                sound.Volume = 1
+                sound.TimePosition = 0
+                sound:Play() -- Play the sound
+                print("Playing: " .. filePath)
+            else
+                warn("File not found: " .. filePath)
+            end
+            
+           end
+       })
+
+       local Section = Tab:CreateSection("Music Settings") 
+
+       local Input = Tab:CreateInput({
+        Name = "Playback Speed",
+        CurrentValue = "",
+        PlaceholderText = "1",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music
+            M.PlaybackSpeed = Text
+        end,
+     })
+
+       local Slider = Tab:CreateSlider({
+        Name = "Playback Speed",
+        Range = {0, 12},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 1,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music
+            M.PlaybackSpeed = v
+    
+        end,
+     })
+
+       local Divider = Tab:CreateDivider()
+       local Section = Tab:CreateSection("Distortion") 
+
+       local Input = Tab:CreateInput({
+        Name = "Distortion",
+        CurrentValue = "",
+        PlaceholderText = "0",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music.DistortionSoundEffect
+            M.Level = Text
+        end,
+     })
+
+       local Slider = Tab:CreateSlider({
+        Name = "Distortion",
+        Range = {0, 1},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 0,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music.DistortionSoundEffect
+            M.Level = v
+    
+        end,
+     })
+
+     local Section = Tab:CreateSection("Equalizer") 
+
+     local Input = Tab:CreateInput({
+        Name = "High Gain",
+        CurrentValue = "",
+        PlaceholderText = "0",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music.EqualizerSoundEffect
+            M.HighGain = Text
+        end,
+     })
+
+     local Slider = Tab:CreateSlider({
+        Name = "High Gain",
+        Range = {0, 10},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 0,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music.EqualizerSoundEffect
+            M.HighGain = v
+    
+        end,
+     })
+
+     local Input = Tab:CreateInput({
+        Name = "Low Gain (Bass)",
+        CurrentValue = "",
+        PlaceholderText = "0",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music.EqualizerSoundEffect
+            M.LowGain = Text
+        end,
+     })
+
+     local Slider = Tab:CreateSlider({
+        Name = "Low Gain (Bass)",
+        Range = {0, 10},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 0,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music.EqualizerSoundEffect
+            M.LowGain = v
+    
+        end,
+     })
+
+     local Input = Tab:CreateInput({
+        Name = "Mid Gain",
+        CurrentValue = "",
+        PlaceholderText = "0",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music.EqualizerSoundEffect
+            M.MidGain = Text
+        end,
+     })
+
+     local Slider = Tab:CreateSlider({
+        Name = "Mid Gain",
+        Range = {0, 10},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 0,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music.EqualizerSoundEffect
+            M.MidGain = v
+    
+        end,
+     })
+
+     local Section = Tab:CreateSection("Pitch")
+
+     local Input = Tab:CreateInput({
+        Name = "Pitch",
+        CurrentValue = "",
+        PlaceholderText = "0",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music.PitchShiftSoundEffect
+            M.Octave = Text
+        end,
+     })
+     
+     local Slider = Tab:CreateSlider({
+        Name = "Pitch",
+        Range = {0, 12},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 1,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music.PitchShiftSoundEffect
+            M.Octave = v
+    
+        end,
+     })
+
+     local Input = Tab:CreateInput({
+        Name = "Priority",
+        CurrentValue = "",
+        PlaceholderText = "0",
+        RemoveTextAfterFocusLost = false,
+        Flag = "Input1",
+        Callback = function(Text)
+            local M = workspace.Music.PitchShiftSoundEffect
+            M.Priority = Text
+        end,
+     })
+
+     local Slider = Tab:CreateSlider({
+        Name = "Priority",
+        Range = {0, 5},
+        Increment = 0.01,
+        Suffix = "Amount",
+        CurrentValue = 0,
+        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+        Callback = function(v)
+            local M = workspace.Music.PitchShiftSoundEffect
+            M.Priority = v
+    
+        end,
+     })
+
+     
+      
+
+       local Section = Tab:CreateSection("Visualizers") 
+
+       local Button = Tab:CreateButton({
+        Name = "FOV Visualizer",
+        Callback = function()
+
+
+    local Players = game:GetService("Players")
+    local TweenService = game:GetService("TweenService")
+    local RunService = game:GetService("RunService")
+
+    local player = Players.LocalPlayer
+    local camera = workspace.CurrentCamera
+
+-- Reference your sound instance in the workspace.
+    local sound = workspace:WaitForChild("Music")
+
+-- Configuration variables
+local BASE_FOV = 90           -- Default Field of View.
+local MAX_EXTRA_FOV = 120      -- Maximum additional FOV.
+local TWEEN_TIME = 0.1        -- Tween duration.
+local SCALING_FACTOR = 35      -- Factor to scale bass value (adjust as needed).
+
+-- Function to get a value representing bass
+    local function getBassValue()
+    local spectrumData
+    local success = pcall(function()
+        spectrumData = sound:GetSpectrumData()
+    end)
+    
+    if not success or not spectrumData or #spectrumData == 0 then
+        -- Fallback to overall loudness if spectrum data is unavailable.
+        return sound.PlaybackLoudness
+    end
+
+    -- Use the first 20% of bins (bass frequencies)
+    local bassCount = math.max(1, math.floor(#spectrumData * 0.2))
+    local bassSum = 0
+    for i = 1, bassCount do
+        bassSum = bassSum + spectrumData[i]
+    end
+    local averageBass = bassSum / bassCount
+    return averageBass
+end
+
+-- Function to update the camera's FOV based on bass data.
+local function updateCameraFOV()
+    local bassValue = getBassValue()
+    -- Calculate additional FOV based on the bass value.
+    local additionalFOV = math.clamp(bassValue / SCALING_FACTOR, 0, MAX_EXTRA_FOV)
+    local targetFOV = BASE_FOV + additionalFOV
+
+    local tween = TweenService:Create(
+        camera, 
+        TweenInfo.new(TWEEN_TIME, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), 
+        {FieldOfView = targetFOV}
+    )
+    tween:Play()
+end
+
+-- Update every frame.
+RunService.RenderStepped:Connect(function()
+    updateCameraFOV()
+end)
+        end,
+})
+
 
  local Tab = Window:CreateTab("Chat", "message-circle")
 
@@ -1594,178 +1942,6 @@ local Label = Tab:CreateLabel("I think some messages could get u banned. Im not 
     Name = "This is like Ohio",
     Callback = function(Chat)
 	local TextChatService = game:GetService("TextChatService")
-    TextChatService.TextChannels.RBXGeneral:SendAsync("Skibidi Sigma")
+    TextChatService.TextChannels.RBXGeneral:SendAsync("This is like Ohio")
     end,
  })
-
-local Tab = Window:CreateTab("Custom Songs", "music")
-
-local Section = Tab:CreateSection("CUSTOM MUSIC HOLY MOLY!!!!")
-local Label = Tab:CreateLabel("How to use: Go inside your exploit workspace folder and create a folder named 'Music' (Exactly like that or it wont work) and you put your music files here.", "activity")
-   local Label = Tab:CreateLabel("And do not forget to put the full music file name with exetnsion! Example: music.mp3", "file")
-
-    local Button = Tab:CreateButton({
-        Name = "Remove Reverb.",
-        Callback = function()
-            local SoundService = game:GetService("SoundService")
-            SoundService.AmbientReverb = Enum.ReverbType.NoReverb
-        end,
-     })
-    
-     local Button = Tab:CreateButton({
-        Name = "Add Back Reverb.",
-        Callback = function()
-            local SoundService = game:GetService("SoundService")
-            SoundService.AmbientReverb = Enum.ReverbType.Hangar
-        end,
-     })
-    
-     local Button = Tab:CreateButton({
-        Name = "Mute Music [Temporary. Every Round Resets]",
-        Callback = function()
-            local M = workspace.Music
-            M.SoundId = "rbxassetid://"
-            M.PlaybackSpeed = 1
-            M.TimePosition = 0
-            M.Playing = true
-            M.Looped = true
-            
-            
-            Rayfield:Notify({
-                Title = "Bear [Alpha] GUI",
-                Content = "Music Muted✔",
-                Duration = 6.5,
-                Image = "volume-off",
-             })
-        end,
-     })
-    
-    
-     local Slider = Tab:CreateSlider({
-        Name = "Volume",
-        Range = {0, 2},
-        Increment = 0.1,
-        Suffix = "Volume",
-        CurrentValue = 1,
-        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-        Callback = function(v)
-            local M = workspace.Music
-            M.Volume = v
-    
-        end,
-     })
-
-    local Input = Tab:CreateInput({
-           Name = "Enter Song File Name",
-           PlaceholderText = "song.mp3/wav/ogg",
-           RemoveTextAfterFocus = false,
-           Callback = function(text)
-            local musicFolderPath = "Music"
-
-            -- Check if the "Music" folder exists
-            if not isfolder(musicFolderPath) then
-                warn("Folder not found: " .. musicFolderPath)
-                return
-            end
-            
-            local fileName = text -- Get the filename from the TextBox
-            local filePath = musicFolderPath .. "/" .. fileName
-            
-            -- Check if the file exists before playing
-            if isfile(filePath) then
-                sound.SoundId = getcustomasset(filePath) -- Set the SoundId to the custom asset
-                sound.PlaybackSpeed = 1
-                sound.Volume = 1
-                sound.TimePosition = 0
-                sound:Play() -- Play the sound
-                print("Playing: " .. filePath)
-            else
-                warn("File not found: " .. filePath)
-            end
-            
-           end
-       })
-
-       local Section = Tab:CreateSection("Music Settings") 
-
-       local Slider = Tab:CreateSlider({
-        Name = "Volume",
-        Range = {0, 2},
-        Increment = 0.1,
-        Suffix = "Volume",
-        CurrentValue = 1,
-        Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-        Callback = function(v)
-            local M = workspace.Music
-            M.Volume = v
-    
-        end,
-     })
-      
-
-       local Section = Tab:CreateSection("Visualizers") 
-
-       local Button = Tab:CreateButton({
-        Name = "FOV Visualizer",
-        Callback = function()
-
-
-    local Players = game:GetService("Players")
-    local TweenService = game:GetService("TweenService")
-    local RunService = game:GetService("RunService")
-
-    local player = Players.LocalPlayer
-    local camera = workspace.CurrentCamera
-
--- Reference your sound instance in the workspace.
-    local sound = workspace:WaitForChild("Music")
-
--- Configuration variables
-local BASE_FOV = 90           -- Default Field of View.
-local MAX_EXTRA_FOV = 120      -- Maximum additional FOV.
-local TWEEN_TIME = 0.1        -- Tween duration.
-local SCALING_FACTOR = 35      -- Factor to scale bass value (adjust as needed).
-
--- Function to get a value representing bass
-    local function getBassValue()
-    local spectrumData
-    local success = pcall(function()
-        spectrumData = sound:GetSpectrumData()
-    end)
-    
-    if not success or not spectrumData or #spectrumData == 0 then
-        -- Fallback to overall loudness if spectrum data is unavailable.
-        return sound.PlaybackLoudness
-    end
-
-    -- Use the first 20% of bins (bass frequencies)
-    local bassCount = math.max(1, math.floor(#spectrumData * 0.2))
-    local bassSum = 0
-    for i = 1, bassCount do
-        bassSum = bassSum + spectrumData[i]
-    end
-    local averageBass = bassSum / bassCount
-    return averageBass
-end
-
--- Function to update the camera's FOV based on bass data.
-local function updateCameraFOV()
-    local bassValue = getBassValue()
-    -- Calculate additional FOV based on the bass value.
-    local additionalFOV = math.clamp(bassValue / SCALING_FACTOR, 0, MAX_EXTRA_FOV)
-    local targetFOV = BASE_FOV + additionalFOV
-
-    local tween = TweenService:Create(
-        camera, 
-        TweenInfo.new(TWEEN_TIME, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), 
-        {FieldOfView = targetFOV}
-    )
-    tween:Play()
-end
-
--- Update every frame.
-RunService.RenderStepped:Connect(function()
-    updateCameraFOV()
-end)
-        end,
-})
