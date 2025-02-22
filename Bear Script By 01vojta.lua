@@ -1,3 +1,4 @@
+workspace.Camera.FieldOfView = 100
 -- For Music
 local sound = game.Workspace:FindFirstChild("Music")
 
